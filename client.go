@@ -134,7 +134,8 @@ func (client *Client) commonHTTPRequest(jsonBody interface{}, endpoint, verb str
 	case 400:
 		return nil, errors.New("ALL_ERROR")
 	case 500:
-		return nil, errors.New("CLARIFAI_ERROR")
+		body, _ := ioutil.ReadAll(res.Body)
+		return nil, errors.New("CLARIFAI_ERROR: " + string(body))
 	default:
 		return nil, errors.New("UNEXPECTED_STATUS_CODE")
 	}
